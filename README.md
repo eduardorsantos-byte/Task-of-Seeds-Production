@@ -4,7 +4,7 @@
 
 O **Seed Production Task Tracker** é a ferramenta de gestão de demandas da Administração de Produção de Sementes da SLC Sementes. Em um só lugar, o time organiza as rotinas recorrentes (como o PDCA e o Comitê SLC Sementes), os projetos e as demandas pontuais, separados por área. Hoje estão ativas **Custos e Despesas** e **Inteligência de Mercado**. BI e Visualização, Expedição, SAP e Operação, Compras e Sistemas estão cadastradas, mas inativas por ora.
 
-Cada tarefa tem responsável, prazo, urgência e subtarefas. **Nenhuma tarefa é criada sem prazo e urgência** (subtarefas herdam os da tarefa principal). O andamento aparece em quadro, lista ou calendário. O diferencial é ligar o trabalho ao resultado: cada melhoria entregue pode ser registrada como ganho para o negócio (economia em reais, custos evitados, horas poupadas ou melhoria de processo) e só entra nos indicadores depois de validada.
+Cada tarefa tem responsável, prazo, urgência e subtarefas. **Nenhuma tarefa é criada sem prazo e urgência** (subtarefas herdam os da tarefa principal). Pelo botão **Enviar pendências por e-mail**, o app monta um e-mail com as tarefas pendentes de uma pessoa, organizadas por prazo (atrasadas, hoje, próximos 7 dias, até o fim do mês que vem, mais adiante), e abre no Outlook ou copia formatado para colar. O andamento aparece em quadro, lista ou calendário. O diferencial é ligar o trabalho ao resultado: cada melhoria entregue pode ser registrada como ganho para o negócio (economia em reais, custos evitados, horas poupadas ou melhoria de processo) e só entra nos indicadores depois de validada.
 
 ---
 
