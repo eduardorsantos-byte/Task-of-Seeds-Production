@@ -1,0 +1,8 @@
+-- Seed intencionalmente vazio.
+--
+-- O Safra ADM não carrega dados fictícios: dashboards e quadros mostram
+-- apenas o que for cadastrado por usuários reais (requisito do projeto).
+-- Testes usam bancos descartáveis criados por tests/db/harness.ts.
+--
+-- Para começar: convide/crie seu usuário no Supabase Auth, entre no app e
+-- crie o workspace na tela de onboarding.
