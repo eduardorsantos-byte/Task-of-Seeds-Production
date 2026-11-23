@@ -34,6 +34,22 @@ PROTOTYPE_PASSWORD='<senha>' node prototype/build-locked.mjs prototype/app.priva
 
 > **Limite:** a proteção vale enquanto a senha for conhecida só pelo time. Uma senha curta e compartilhada pode ser descoberta por tentativa. Se ela vazar, troque a senha e regere a página. Os dados do protótipo são o estado de 23/11/2026.
 
+## Integração com o PDCA (aba Sugestões)
+
+O protótipo lê o [PDCA 26/27](https://eduardorsantos-byte.github.io/PDCA-Seeds-Production/) e transforma desvios em sugestões de tarefa.
+
+- **Botão "Rodar integração com o PDCA":** lê o orçado × realizado com a mesma regra do PDCA: grupos MT dos CCs 0226 e 0540, acumulado de Set/26 até o último mês com realizado.
+- **Grupos acima do orçado:** viram "Plano de ação" (desvio a partir de R$ 10.000,00 ou de 15%) ou "Analisar desvio". Grupos com realizado sem orçamento viram "Verificar realizado sem orçamento". O desvio mínimo para sugerir pode ser ajustado na tela (padrão: R$ 1.000,00 e 5%).
+- **Cada sugestão** pode ser aceita (vira tarefa em Custos e Despesas, com checklist, responsável e prazo da próxima justificativa do PDCA) ou descartada.
+- **Sem duplicar:** cada sugestão é identificada por grupo + mês do realizado. Rodar de novo só traz o que é novo. Quando o PDCA é atualizado com um novo mês, surgem novas sugestões, e as que se repetem avisam se já existe tarefa aberta.
+
+**De onde vêm os dados, nesta ordem:**
+1. Relatório do SAC carregado no próprio PDCA neste navegador (os dois sites estão no mesmo endereço do GitHub Pages).
+2. Página do PDCA aberta com a sessão desta aba ou com o e-mail e a senha do PDCA. A senha só é usada na leitura e não fica guardada.
+3. Botão "Carregar CSV do SAC", para quando o PDCA não está acessível.
+
+Os valores do PDCA nunca são gravados neste repositório: são lidos no navegador, na hora.
+
 ## Aplicação (código)
 
 A aplicação real usa contas individuais (Supabase Auth, acesso por convite) e guarda os dados no banco, não no repositório. Instalação e configuração: [`docs/SUPABASE.md`](docs/SUPABASE.md). Arquitetura e decisões: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
