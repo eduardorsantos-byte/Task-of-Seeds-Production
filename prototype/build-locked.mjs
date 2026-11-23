@@ -17,6 +17,8 @@
  * (está no .gitignore como prototype/app.private.html).
  */
 import { readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { webcrypto as crypto } from "node:crypto";
 
 const [, , input = "prototype/app.private.html", output = "prototype/index.html"] = process.argv;
@@ -29,8 +31,13 @@ if (!password) {
 const ITERATIONS = 600_000;
 const html = readFileSync(input, "utf8");
 
-// Lista de e-mails autorizados = e-mails do time presentes no protótipo.
-const emails = [...new Set([...html.matchAll(/email: "([^"]+@[^"]+)"/g)].map((m) => m[1].toLowerCase()))];
+// Lista de e-mails autorizados = e-mails dos integrantes ATIVOS do protótipo
+// (linhas com `email: "..."` que não tenham `active: false`).
+const emails = [...new Set(html.split("\n").filter((l) => !/active:\s*false/.test(l)).flatMap((l) => [...l.matchAll(/email: "([^"]+@[^"]+)"/g)]).map((m) => m[1].toLowerCase()))];
+// Logo da SLC Sementes (público) na tela de login.
+const here = dirname(fileURLToPath(import.meta.url));
+const logo = readFileSync(join(here, "assets", "slc-sementes.svg"), "utf8").replace("<svg ", '<svg class="logo" ');
+const symbol = readFileSync(join(here, "assets", "slc-sementes-simbolo.svg"), "utf8").replace(/currentColor/g, "#31A940");
 if (emails.length === 0) {
   console.error("Nenhum e-mail encontrado no protótipo (campo email: \"...\").");
   process.exit(1);
@@ -57,14 +64,16 @@ const shell = `<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Safra ADM — acesso restrito</title>
+<title>Seed Production Task Tracker — acesso restrito</title>
+<link rel="icon" href="data:image/svg+xml,${encodeURIComponent(symbol)}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}html,body{margin:0}
 body{min-height:100dvh;display:grid;place-items:center;padding:24px;background:#0A0B0A;color:#fff;font-family:'Figtree',system-ui,sans-serif;font-size:14px}
 main{width:100%;max-width:380px}
-h1{font-size:26px;font-weight:700;margin:0}h1 span{color:#00C65E}
+.logo{display:block;width:200px;height:auto;color:#F0EDEB;margin:0 0 26px}
+h1{font-size:24px;font-weight:700;line-height:1.2;margin:0}h1 span{color:#00C65E}
 .sub{margin:6px 0 28px;color:#9BA39A}
 form{display:grid;gap:16px;padding:24px;border:1px solid #262A26;border-radius:14px;background:#141614}
 label{display:grid;gap:6px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#9BA39A}
@@ -79,7 +88,8 @@ button[disabled]{opacity:.6;cursor:wait}
 </head>
 <body>
 <main>
-  <h1>Safra <span>ADM</span></h1>
+  ${logo}
+  <h1>Seed Production <span>Task Tracker</span></h1>
   <p class="sub">Administrativo · Produção de Sementes</p>
   <form id="login" novalidate>
     <label>E-mail<input id="email" type="email" autocomplete="username" required autofocus></label>

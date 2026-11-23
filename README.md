@@ -1,8 +1,10 @@
-# Task of Seeds Production — Safra ADM
+# Seed Production Task Tracker
 
-**Safra ADM** é a ferramenta de gestão de demandas da Administração de Produção de Sementes. Em um só lugar, o time organiza as rotinas recorrentes (como o PDCA e o Comitê SLC Sementes), os projetos e as demandas pontuais, separados por área: Custos e Despesas, BI e Visualização, Expedição, SAP e Operação, Compras e Sistemas.
+<img src="prototype/assets/slc-sementes-verde.svg" alt="SLC Sementes" width="220">
 
-Cada tarefa tem responsável, prazo, prioridade e subtarefas, e o andamento aparece em quadro, lista ou calendário. O diferencial é ligar o trabalho ao resultado: cada melhoria entregue pode ser registrada como ganho para o negócio (economia em reais, custos evitados, horas poupadas ou melhoria de processo) e só entra nos indicadores depois de validada.
+O **Seed Production Task Tracker** é a ferramenta de gestão de demandas da Administração de Produção de Sementes da SLC Sementes. Em um só lugar, o time organiza as rotinas recorrentes (como o PDCA e o Comitê SLC Sementes), os projetos e as demandas pontuais, separados por área. Hoje estão ativas **Custos e Despesas** e **Inteligência de Mercado**. BI e Visualização, Expedição, SAP e Operação, Compras e Sistemas estão cadastradas, mas inativas por ora.
+
+Cada tarefa tem responsável, prazo, urgência e subtarefas. **Nenhuma tarefa é criada sem prazo e urgência** (subtarefas herdam os da tarefa principal). O andamento aparece em quadro, lista ou calendário. O diferencial é ligar o trabalho ao resultado: cada melhoria entregue pode ser registrada como ganho para o negócio (economia em reais, custos evitados, horas poupadas ou melhoria de processo) e só entra nos indicadores depois de validada.
 
 ---
 
@@ -20,7 +22,7 @@ Cada tarefa tem responsável, prazo, prioridade e subtarefas, e o andamento apar
 
 `prototype/index.html` abre uma tela de login. O conteúdo (time, tarefas, ganhos) está **criptografado** (AES-256-GCM, chave derivada da senha com PBKDF2-SHA256, 600.000 iterações). No repositório fica só o texto cifrado: sem a senha, nada pode ser lido, mesmo com o repositório público.
 
-- Entram apenas os e-mails do time cadastrados no protótipo.
+- Entram apenas os e-mails dos integrantes **ativos** do protótipo. Quem está inativo por ora não entra.
 - A senha **não** está em nenhum arquivo deste repositório. Ela é combinada com o time fora do GitHub.
 - Para abrir: baixe `prototype/index.html` e abra no navegador.
 
