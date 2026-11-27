@@ -16,25 +16,29 @@ Cada tarefa tem responsável, prazo, urgência e subtarefas. **Nenhuma tarefa é
 | `src/` | Aplicação web (Next.js 16, React 19, TypeScript, Tailwind, shadcn/ui). |
 | `supabase/migrations/` | Banco de dados versionado (PostgreSQL + políticas de segurança RLS). |
 | `tests/` | Testes automatizados (regras de negócio e banco). |
-| `docs/` | Arquitetura, decisões e configuração do Supabase. |
+| `docs/` | Governança (acessos, segurança, homologação), arquitetura e configuração do Supabase. |
 
 ## Protótipo
 
-`prototype/index.html` abre uma tela de login. O conteúdo (time, tarefas, ganhos) está **criptografado** (AES-256-GCM, chave derivada da senha com PBKDF2-SHA256, 600.000 iterações). No repositório fica só o texto cifrado: sem a senha, nada pode ser lido, mesmo com o repositório público.
+Endereço: **https://eduardorsantos-byte.github.io/Task-of-Seeds-Production/** (HTTPS, abre em qualquer navegador, sem conta em outro serviço).
 
-- Entram apenas os e-mails dos integrantes **ativos** do protótipo. Quem está inativo por ora não entra.
-- A senha **não** está em nenhum arquivo deste repositório. Ela é combinada com o time fora do GitHub.
-- Para abrir: baixe `prototype/index.html` e abra no navegador.
+`prototype/index.html` abre uma tela de login. O conteúdo (time, tarefas, ganhos) está **criptografado** com AES-256-GCM. A chave do conteúdo é embrulhada uma vez para cada pessoa **ativa**, com uma chave derivada da **senha individual** dela (PBKDF2-SHA256, 600.000 iterações). No repositório ficam só textos cifrados e o hash de cada e-mail.
 
-Para regerar a página depois de alterar o protótipo:
+- **Login individual:** cada pessoa tem a própria senha. Quem está inativo não entra. Desativar alguém e publicar de novo corta o acesso.
+- **Bloqueio:** 5 tentativas erradas seguidas travam o login por 5 minutos naquele navegador. A mensagem de erro é a mesma para e-mail ou senha errados, para não revelar quem está cadastrado.
+- **Sessão:** termina ao clicar em Sair, ao fechar ou recarregar a aba, após 30 minutos sem uso ou após 8 horas.
+- **Perfis:** Administrador, Gestor, Colaborador e Leitura, com escopo por área. Veja a matriz em [docs/GOVERNANCA.md](docs/GOVERNANCA.md).
+- As senhas **não** estão em nenhum arquivo deste repositório.
+
+Para regerar a página depois de alterar o protótipo, com as senhas num arquivo JSON **fora** do repositório (`{"email": "senha"}`; quem não tiver senha recebe uma provisória gerada pelo script):
 
 ```bash
-PROTOTYPE_PASSWORD='<senha>' node prototype/build-locked.mjs prototype/app.private.html prototype/index.html
+SPTT_PASSWORDS=/caminho/fora/do/repositorio/senhas.json node prototype/build-locked.mjs
 ```
 
 `prototype/app.private.html` é a versão em texto aberto e **nunca** é versionada (`.gitignore`).
 
-> **Limite:** a proteção vale enquanto a senha for conhecida só pelo time. Uma senha curta e compartilhada pode ser descoberta por tentativa. Se ela vazar, troque a senha e regere a página. Os dados do protótipo são o estado de 23/11/2026.
+> **Limites desta versão (sem servidor):** a proteção depende de senhas fortes e de o administrador entregá-las por canal privado. Trocar senha, ativar ou desativar alguém só vale após publicar de novo. Nada do que se cria no app é salvo. Controles de servidor (SSO Microsoft, auditoria gravada, backups) estão no plano da versão com servidor, em [docs/GOVERNANCA.md](docs/GOVERNANCA.md).
 
 ## Integração com o PDCA (aba Sugestões)
 
